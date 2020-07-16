@@ -17,16 +17,7 @@ span {
 .covidFlex {
   display: flex;
   justify-content: space-between;
-}
-.covidContainer {
-  margin: 0 auto;
-  height: 59%;
-  display: flex;
-  width: 70%;
-  justify-content: space-between;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
+} 
 button {
   background-repeat: no-repeat;
   background-position: center;
@@ -372,7 +363,6 @@ body {
   border-radius: 35px;
   color: #ffffff;
 }
-
 .corona-box {
   width: 25%;
   height: 200px;
@@ -388,15 +378,15 @@ body {
   font-size: 28px;
   margin-bottom: 7px;
 }
-
-.list {
+.covidContainer {
+  margin: 0 auto;
+  height: 59%;
   display: flex;
+  width: 70%;
+  justify-content: space-between;
   flex-direction: column;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 18px;
+  flex-wrap: wrap;
 }
-
 .items {
   display: flex;
   justify-content: center;
@@ -738,6 +728,9 @@ body {
   background-position: center;
 }
 @media (max-width: 1023px) {
+  .corona-box {
+    width: 95%;
+  }
   .corona-box {
     width: 95%;
   }

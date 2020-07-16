@@ -12,9 +12,6 @@ import getTileUrl from '../api/airq'
 
 const debounce = require('lodash.debounce');
 
-// const inpSpeech = document.querySelector('.main-input');
-// inpSpeech.addEventListener('input', searchInputSpeech);
-
 const refs = {
   body: document.querySelector('body'),
   input: document.querySelector('.main-input'),

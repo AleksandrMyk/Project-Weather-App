@@ -251,7 +251,7 @@ const btnHideChart = document.querySelector('.hide-chart-btn-js');
 btnHideChart.addEventListener('click', event => {
   event.preventDefault();
 
-  if (chartBox.style.display == 'block') {
+  if (chartBox.style.display === 'block') {
     event.target.text = 'Show chart';
     chartBox.style.display = 'none';
   }
