@@ -1,4 +1,3 @@
-
 const baseUrl = 'https://corona.lmao.ninja/v2/countries/';
 export default function fetchCovid(query) {
   return fetch(`${baseUrl}${query}`)
@@ -6,7 +5,7 @@ export default function fetchCovid(query) {
       return response.json();
     })
     .then(data => {
-      console.log(data)
+      console.log(data);
       renderCovidInfo(data);
     });
 }
@@ -18,7 +17,7 @@ let covidRefs = {
   todayDeaths: document.querySelector('.todayDeaths'),
   totalCases: document.querySelector('.totalCases'),
   recovered: document.querySelector('.recovered'),
-  deaths: document.querySelector('.deaths')
+  deaths: document.querySelector('.deaths'),
 };
 function renderCovidInfo(data) {
   covidRefs.country.textContent = `${data.country}`;
@@ -28,5 +27,5 @@ function renderCovidInfo(data) {
   covidRefs.todayDeaths.textContent = `${data.todayDeaths}`;
   covidRefs.totalCases.textContent = `${data.cases}`;
   covidRefs.recovered.textContent = `${data.recovered}`;
-  covidRefs.deaths.textContent = `${data.deaths}`
-};
+  covidRefs.deaths.textContent = `${data.deaths}`;
+}

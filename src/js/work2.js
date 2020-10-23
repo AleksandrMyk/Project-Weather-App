@@ -2,7 +2,7 @@ import fetchForeCust from '../api/forecast.js';
 import templateLi from '../templates/hbs-li.hbs';
 import templateLiChild from '../templates/hbs-liChild.hbs';
 import Chart from 'chart.js';
-import { data } from 'autoprefixer';
+
 
 const refs = {
   CCName: document.querySelector('.cityName'),

@@ -1,14 +1,11 @@
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/Material.css';
 import '@pnotify/core/dist/PNotify.css';
-import { defaults } from '@pnotify/core';
 import query from '../api/weather';
 import memoryBuilder from '../templates/memory.hbs';
-import Siema from 'siema';
 import fetchCovid from '../api/corona';
 import fetchPixabay from '../api/pixabay';
-import { alert, notice, info, success, error } from '@pnotify/core';
-import getTileUrl from '../api/airq'
+import { error } from '@pnotify/core';
 
 const debounce = require('lodash.debounce');
 
@@ -18,7 +15,7 @@ const refs = {
   citiesMemory: document.querySelector('.added-city'),
   deleteCityBtn: document.querySelector('.cross-btn'),
   saveCityBtn: document.querySelector('.save-btn'),
-  citiesContainer: document.querySelector('.siema'),
+  citiesContainer: document.querySelector('.favorit'),
   weatherContainerLocation: document.querySelector('.city'),
   weatherCity: document.getElementById('weather_city'),
   currentTemp: document.getElementById('weather_temp'),
@@ -41,7 +38,7 @@ const refs = {
 //  ===================  CURRENT CITY START CODE =====================
 const reverseGeocoder = new BDCReverseGeocode();
 let cityName;
-window.addEventListener('load', loadDefaultRender); ////////////////////////////////////////////// LOADING DOM
+window.addEventListener('load', loadDefaultRender); /// LOADING DOM
 
 function fetchPixabayBgImg(ct) {
   fetchPixabay.fetchBgImage(ct).then(parsedResponse => {
@@ -63,11 +60,9 @@ function loadDefaultRender() {
     //========== WEATHER AT CURRENT CITY =================
     query
       .fetchWeather(result.localityInfo.administrative[1].name)
-      .then(data => { console.log(data);
-
+      .then(data => {
         let keys = Object.values(data.sys.country).join('');
         fetchCovid(keys);
-        
         let airlon = data.coord.lon;
         let airlat = data.coord.lat;
         let map = new google.maps.Map(document.getElementById('map'), {
@@ -89,7 +84,6 @@ function loadDefaultRender() {
             );
           },
           name: 'Air  Quality',
-
         });
         map.overlayMapTypes.insertAt(0, waqiMapOverlay);
 
@@ -115,7 +109,8 @@ const storedCities = JSON.parse(localStorage.getItem('Cities'));
 const findedCities = [];
 
 export default { findedCities, storedCities };
-//================ ОТРИСОВКА КАРУСЕЛИ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ИЗ ЛОКАЛСТОРА
+
+//================ ОТРИСОВКА ИЗБРАННОГО ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ИЗ ЛОКАЛСТОРА
 if (storedCities !== null) {
   storedCities.forEach(value => {
     cityName = value;
@@ -123,19 +118,7 @@ if (storedCities !== null) {
     insertCityToTheMemory();
   });
 }
-// } else {
-//   const allLi = storedCities
-//     .map(
-//       city => `
-//     <div id=${city} class="btn-wrapper">
-//       <span class="added-city">${city}</span>
-//       <button class="cross-btn" data-id=${city}></button>
-//     </div>`,
-//     )
-//     .join('');
 
-//   refs.citiesContainer.innerHTML = allLi;
-// }
 let citiesMemoryMarkUp = null;
 
 refs.input.addEventListener('input', debounce(searchFromInput, 1500));
@@ -172,7 +155,6 @@ function hideAndShowSasha() {
   }, 10);
 }
 
-
 function renderCityWeather(e) {
   if (e.target.className !== 'added-city') {
     return;
@@ -205,7 +187,6 @@ function searchFromInput(e) {
     .then(data => {
       let keys = Object.values(data.sys.country).join('');
       fetchCovid(keys);
-
       let airlon = data.coord.lon;
       let airlat = data.coord.lat;
       let map = new google.maps.Map(document.getElementById('map'), {
@@ -227,14 +208,13 @@ function searchFromInput(e) {
           );
         },
         name: 'Air  Quality',
-
       });
       map.overlayMapTypes.insertAt(0, waqiMapOverlay);
-
       if (data.cod === 200 && !findedCities.includes(data.name)) {
         refs.saveCityBtn.classList.remove('starred');
         fetchPixabay.searchQuery = data.name;
         fetchPixabayBgImg(fetchPixabay.searchQuery);
+
         cityName = data.name;
         citiesMemoryMarkUp = {
           name: data.name,
@@ -285,8 +265,6 @@ function insertCityToTheMemory() {
   refs.input.value = '';
   localStorage.setItem('Cities', JSON.stringify(findedCities));
 }
-
-//   findedCities.length > 4 ? 4 : findedCities.length
 
 function removeCityFromMemory(e) {
   if (e.target && e.target.className === 'cross-btn') {
