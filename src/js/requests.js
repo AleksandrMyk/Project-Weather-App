@@ -6,6 +6,8 @@ import memoryBuilder from '../templates/memory.hbs';
 import fetchCovid from '../api/corona';
 import fetchPixabay from '../api/pixabay';
 import { error } from '@pnotify/core';
+import fetchWeather from '../api/forecast';
+import buildPostFeed from '../js/work2';
 
 const debounce = require('lodash.debounce');
 
@@ -53,7 +55,6 @@ function fetchPixabayBgImg(ct) {
 function loadDefaultRender() {
   reverseGeocoder.getClientLocation(function (result) {
     fetchPixabay.searchQuery = result.localityInfo.administrative[1].name;
-    console.log('CURRENT LOCATION', result.localityInfo.administrative[1].name);
 
     fetchPixabayBgImg(fetchPixabay.searchQuery);
 
@@ -114,7 +115,6 @@ export default { findedCities, storedCities };
 if (storedCities !== null) {
   storedCities.forEach(value => {
     cityName = value;
-    console.log(cityName);
     insertCityToTheMemory();
   });
 }
@@ -177,6 +177,9 @@ function renderCityWeather(e) {
       name: data.name,
       html: memoryBuilder(data),
     };
+  });
+  fetchWeather(clickedCityName).then(data => {
+    buildPostFeed(data);
   });
 }
 function searchFromInput(e) {

@@ -201,7 +201,7 @@
 .date {
   opacity: 1;
   font-weight: 300;
-  font-size: 90px;
+  font-size: 80px;
   color: #ffffff;
   margin-right: 25px;
 }
@@ -214,7 +214,7 @@
 
 .day {
   font-weight: 300;
-  font-size: 90px;
+  font-size: 80px;
   color: #ffffff;
 }
 
@@ -423,7 +423,7 @@
     margin-bottom: 30px;
   }
   .date-container {
-    width: 44%;
+    width: 54%;
   }
   .corona-box {
     width: 44%;

@@ -5,7 +5,6 @@ export default function fetchCovid(query) {
       return response.json();
     })
     .then(data => {
-      console.log(data);
       renderCovidInfo(data);
     });
 }

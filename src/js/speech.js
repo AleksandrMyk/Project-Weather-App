@@ -2,6 +2,9 @@ import query from '../api/weather';
 import data from '../js/requests';
 import fetchCovid from '../api/corona';
 import fetchPx from '../api/pixabay';
+import fetchForecast from '../api/forecast';
+import buildPostFeed from '../js/work2';
+
 function getRandomInt(min, max) {
   min = 1;
   max = 20;
@@ -9,7 +12,6 @@ function getRandomInt(min, max) {
 }
 
 const talkBtn = document.querySelector('.talk-btn');
-console.dir(talkBtn);
 talkBtn.addEventListener('click', makeSpeech);
 const inputSpeech = document.querySelector('.main-input');
 
@@ -19,7 +21,7 @@ const refs = {
   citiesMemory: document.querySelector('.added-city'),
   deleteCityBtn: document.querySelector('.cross-btn'),
   saveCityBtn: document.querySelector('.save-btn'),
-  citiesContainer: document.querySelector('.siema'),
+  citiesContainer: document.querySelector('.favorit'),
   weatherContainerLocation: document.querySelector('.city'),
   weatherCity: document.getElementById('weather_city'),
   currentTemp: document.getElementById('weather_temp'),
@@ -48,6 +50,9 @@ function makeSpeech() {
     inputSpeech.value = voiceCity;
     if (inputSpeech.value !== '') {
       makeSearch(voiceCity);
+      fetchForecast(voiceCity).then(data => {
+        buildPostFeed(data);
+      });
     }
   };
   SpeechRecognition.start();
@@ -81,7 +86,6 @@ function makeSearch(city) {
         );
       },
       name: 'Air  Quality',
-
     });
     map.overlayMapTypes.insertAt(0, waqiMapOverlay);
   });
@@ -140,7 +144,6 @@ function insertCityToTheMemor(name) {
   if (data.findedCities.length >= 7) {
     data.findedCities.splice(0, 1);
   }
-  console.log(data.findedCities);
   const allLi = data.findedCities
     .map(
       city => `

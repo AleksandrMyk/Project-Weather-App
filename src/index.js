@@ -5,4 +5,3 @@ import './api/weather';
 import './js/requests';
 import './js/speech';
 import './js/work2';
-import './js/work6';
